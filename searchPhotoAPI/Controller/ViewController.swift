@@ -9,31 +9,24 @@ import UIKit
 
 class ViewController: UIViewController {
    
+    @IBOutlet weak var collectionView: UICollectionView!
+
+    
     var images_results: [Image] = []
-    
-    private var collectionView: UICollectionView?
-    
+
     let searchBar = UISearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
         view.addSubview(searchBar)
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: view.frame.size.width/3, height: view.frame.size.width/3)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
         collectionView.dataSource = self
         searchBar.delegate = self
-        collectionView.delegate = self
-        view.addSubview(collectionView)
-        collectionView.backgroundColor = .systemBackground
-        self.collectionView = collectionView
         
     }
+    
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -76,6 +69,17 @@ extension ViewController: UICollectionViewDataSource {
         cell.configure(with: imageURLString)
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "PhotoFullScreenVC") as! PhotoFullScreenVC
+
+        vc.imageReceived = UIImage(named: images_results[indexPath.item].thumbnail)!
+        navigationController?.pushViewController(vc, animated: true)
+        
+        
+    }
+       
 }
 // MARK: - UISearchBarDelegate
 extension ViewController: UISearchBarDelegate {
@@ -89,7 +93,3 @@ extension ViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UICollectionViewDelegate
-extension ViewController: UICollectionViewDelegate {
-    
-}

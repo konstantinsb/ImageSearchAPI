@@ -10,6 +10,9 @@ import UIKit
 class ImageCollectionViewCell: UICollectionViewCell {
     static let identifier = "ImageCollectionViewCell"
     
+    @IBOutlet weak var myImage: UIImageView!
+    
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
