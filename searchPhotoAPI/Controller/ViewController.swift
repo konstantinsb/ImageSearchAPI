@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         view.addSubview(searchBar)
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
         collectionView.dataSource = self
+        collectionView.delegate = self
         
     }
     
@@ -41,63 +42,61 @@ class ViewController: UIViewController {
     }
     
     func fetchData(Query:String){
-           let urlString = "https://api.unsplash.com/search/photos?page=1&per_page=30&query=\(Query)&client_id=WuBEAXzCr0cnJ1hAgugDx1R5ITlvME5YaxgLc-wrUFE"
-           
-           guard let url = URL(string: urlString) else { return }
-           let task = URLSession.shared
-           
-           task.dataTask(with: url) { [self] (data, resp, error) in
-               if let data = data{
+            let urlString = "https://api.unsplash.com/search/photos?page=1&query=\(Query)&client_id=WuBEAXzCr0cnJ1hAgugDx1R5ITlvME5YaxgLc-wrUFE"
+            
+            guard let url = URL(string: urlString)else{
+                return
+            }
+            let task = URLSession.shared
+            
+            task.dataTask(with: url) { [self] (data, resp, error) in
+                if let data = data{
                    do{
-                       let jsonResult = try JSONDecoder().decode(ApiResponse.self, from: data)
-                       
-                       DispatchQueue.main.async {
-                           self.result = jsonResult.results
-                           self.collectionView?.reloadData()
-                       }
+                        let jsonResult = try JSONDecoder().decode(ApiResponse.self, from: data)
+                        
+                        DispatchQueue.main.async {
+                            self.result = jsonResult.results
+                            self.collectionView?.reloadData()
+                        }
                      }
-                   catch{
-                       print(error.localizedDescription)
-                       
-                   }
+                    catch{
+                        print(error.localizedDescription)
+                    }
+              }
+                else{
+                    DispatchQueue.main.async {
+                        
+                        self.present(alert, animated: true, completion: nil)
+                        self.collectionView?.isHidden = true
+                    }
                 }
-               else{
-                   DispatchQueue.main.async {
-                       
-                       self.present(alert, animated: true, completion: nil)
-                       self.collectionView?.isHidden = true
-                       
-                   }
-               }
            }.resume()
     }
-}
-// MARK: - UICollectionViewDataSource
-
-extension ViewController:UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return result.count
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let imageUrlString = result[indexPath.row].urls.thumb
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as! ImageCollectionViewCell
-        cell.config(with: imageUrlString)
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
- 
-         let imgUrl = result[indexPath.row].urls.regular
-        
-        let vc = storyboard?.instantiateViewController(identifier: "PhotoFullScreenVC") as! PhotoFullScreenVC
-        vc.config(with: imgUrl)
-        
-       self.navigationController?.pushViewController(vc, animated: true)
-    }
 }
+    extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource{
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return result.count
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let imageUrlString = result[indexPath.row].urls.thumb
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as! ImageCollectionViewCell
+            cell.config(with: imageUrlString)
+            
+            return cell
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+           let imgUrl = result[indexPath.row].urls.regular
+            
+            let vc = storyboard?.instantiateViewController(identifier: "PhotoFullScreenVC") as! PhotoFullScreenVC
+            vc.config(with: imgUrl)
+            
+           self.navigationController?.pushViewController(vc, animated: true)
+        }
+ }
 // MARK: - UISearchBarDelegate
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
