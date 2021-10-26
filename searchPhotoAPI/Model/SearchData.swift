@@ -6,9 +6,21 @@
 //
 
 import Foundation
-struct APIResponse: Codable {
-    let images_results: [Image]
+
+struct ApiResponse:Codable {
+    
+    
+    let total:Int
+    let total_pages:Int
+    let results:[ Result]
 }
-struct Image: Codable {
-    let thumbnail: String
+
+
+struct Result:Codable{
+    let id:String
+    let urls:URLS
+}
+struct URLS:Codable {
+    let thumb : String
+    let regular:String
 }
