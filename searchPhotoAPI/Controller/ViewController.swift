@@ -14,14 +14,9 @@ class ViewController: UIViewController {
     var result:[Result] = []
     
     let searchBar = UISearchBar()
-    
-    let alert = UIAlertController(title: "Error", message: "Check Your Internet Connection", preferredStyle: .alert)
-    let alertAction = UIAlertAction(title: "Error", style: .default, handler: nil)
-    
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        alert.addAction(alertAction)
         searchBar.delegate = self
         view.addSubview(searchBar)
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
@@ -47,9 +42,7 @@ class ViewController: UIViewController {
             guard let url = URL(string: urlString)else{
                 return
             }
-            let task = URLSession.shared
-            
-            task.dataTask(with: url) { [self] (data, resp, error) in
+        URLSession.shared.dataTask(with: url) { (data, resp, error) in
                 if let data = data{
                    do{
                         let jsonResult = try JSONDecoder().decode(ApiResponse.self, from: data)
@@ -63,14 +56,7 @@ class ViewController: UIViewController {
                         print(error.localizedDescription)
                     }
               }
-                else{
-                    DispatchQueue.main.async {
-                        
-                        self.present(alert, animated: true, completion: nil)
-                        self.collectionView?.isHidden = true
-                    }
-                }
-           }.resume()
+        }.resume()
     }
     
 }
@@ -89,12 +75,11 @@ class ViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-           let imgUrl = result[indexPath.row].urls.regular
-            
+            let imgUrl = result[indexPath.row].urls.regular
             let vc = storyboard?.instantiateViewController(identifier: "PhotoFullScreenVC") as! PhotoFullScreenVC
             vc.config(with: imgUrl)
             
-           self.navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
  }
 // MARK: - UISearchBarDelegate
