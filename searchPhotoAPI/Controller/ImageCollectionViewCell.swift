@@ -11,15 +11,14 @@ class ImageCollectionViewCell: UICollectionViewCell {
     static let identifier = "ImageCollectionViewCell"
         
         
-        
+    // MARK: - try create ImageView withiout storyboard
         private let imageView:UIImageView = {
             let imageView = UIImageView()
             imageView.clipsToBounds = true
             imageView.contentMode = .scaleAspectFill
             return imageView
         }()
-        
-        
+       
         override init(frame: CGRect) {
             super.init(frame: frame)
             contentView.addSubview(imageView)
@@ -32,6 +31,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
             imageView.frame = contentView.bounds
             
         }
+
         override func prepareForReuse() {
             super.prepareForReuse()
             imageView.image = nil

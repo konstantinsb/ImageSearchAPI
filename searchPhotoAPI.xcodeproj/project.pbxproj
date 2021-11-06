@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84B4B648273016F200B73821 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4B647273016F200B73821 /* WebViewController.swift */; };
 		84C275A22725362700F245FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C275A12725362700F245FF /* AppDelegate.swift */; };
 		84C275A42725362700F245FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C275A32725362700F245FF /* SceneDelegate.swift */; };
 		84C275A62725362700F245FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C275A52725362700F245FF /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84B4B647273016F200B73821 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		84C2759E2725362700F245FF /* searchPhotoAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = searchPhotoAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C275A12725362700F245FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84C275A32725362700F245FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				84C275B527253FB900F245FF /* ImageCollectionViewCell.swift */,
 				84C275A52725362700F245FF /* ViewController.swift */,
 				84C275C42725A41300F245FF /* PhotoFullScreenVC.swift */,
+				84B4B647273016F200B73821 /* WebViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 				84C275A62725362700F245FF /* ViewController.swift in Sources */,
 				84C275A22725362700F245FF /* AppDelegate.swift in Sources */,
 				84C275B627253FB900F245FF /* ImageCollectionViewCell.swift in Sources */,
+				84B4B648273016F200B73821 /* WebViewController.swift in Sources */,
 				84C275B827255B4B00F245FF /* SearchData.swift in Sources */,
 				84C275A42725362700F245FF /* SceneDelegate.swift in Sources */,
 			);
