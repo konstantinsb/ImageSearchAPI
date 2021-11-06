@@ -14,3 +14,4 @@ You need to create an app that will search images on Google by the query text.
  View Controller inside the app. Users can close that Web View to return to images.
  It will be good if the images are cached on a device
 */ 
+ 
