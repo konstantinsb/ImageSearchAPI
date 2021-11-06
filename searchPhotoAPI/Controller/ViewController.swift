@@ -45,7 +45,6 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         searchBar.frame = CGRect(x: 10, y: view.safeAreaInsets.top, width: view.frame.size.width-20, height: 50)
-        collectionView?.frame = CGRect(x: 0, y: view.safeAreaInsets.top+55, width: view.frame.size.width, height: view.frame.size.height-55)
     }
     
 }
@@ -77,8 +76,10 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource{
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let imgUrl2 = results[indexPath.item].links.html
             let imgUrl = results[indexPath.item].urls.regular
             let vc = storyboard?.instantiateViewController(identifier: "PhotoFullScreenVC") as! PhotoFullScreenVC
+            vc.selectedUrlString = imgUrl2
             vc.config(with: imgUrl)
             self.navigationController?.pushViewController(vc, animated: true)
         }

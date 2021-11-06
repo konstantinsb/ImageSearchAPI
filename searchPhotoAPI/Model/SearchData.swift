@@ -18,12 +18,12 @@ struct ApiResponse:Codable {
     let results:[ Result]
 }
 
-
 struct Result:Codable{
     let id:String
     let urls:URLS
     let links: LINKS
 }
+
 struct URLS:Codable {
     let thumb : String
     let regular:String
@@ -64,9 +64,7 @@ struct searchData {
                 }
                 
             }.resume()
-        }
-    
-    
+    }
 }
 
 

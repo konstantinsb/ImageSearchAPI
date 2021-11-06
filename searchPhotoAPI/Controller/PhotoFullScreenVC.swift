@@ -10,41 +10,36 @@ import UIKit
 
 class PhotoFullScreenVC: UIViewController {
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+        @IBOutlet weak var imageView: UIImageView!
+        var textToSearch: String?
+        var selectedUrlString: String?
     
-    navigationItem.title = "Photo View"
-    navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open Code", style:      .plain,
+  override func viewDidLoad() {
+        super.viewDidLoad()
+    
+
+       
+        navigationItem.title = "Photo View"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open Code", style:      .plain,
         target: self,
         action: #selector(codeEdit)
     )
-    addSubView()
+    
     }
+    
     @objc func codeEdit() {
-        let webViewController = WebViewController()
-        navigationController?.pushViewController(webViewController, animated: true)
-    }
-    
-// MARK: - try create ImageView withiout storyboard
-    
-    let imageView:UIImageView = {
-         let imageView = UIImageView()
-        return imageView
+        let webVC = storyboard?.instantiateViewController(identifier: "WebViewController") as! WebViewController
+        webVC.textOpenSource = selectedUrlString!
         
-    }()
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        imageView.frame = CGRect(x: 0, y: 20, width: view.frame.size.width - imageView.frame.origin.x, height: view.frame.size.height-20)
+        navigationController?.pushViewController(webVC, animated: true)
     }
     
-    // MARK: - add imageView in View
     
-    func addSubView(){
-        imageView.contentMode = .scaleAspectFit
-        
-        view.addSubview(imageView)
-    }
+//    @IBAction func nextButton(_ sender: UIButton) {
+
+//    }
+
+
     func config(with urlString:String){
         
         guard let url = URL(string: urlString)else{
@@ -58,9 +53,10 @@ class PhotoFullScreenVC: UIViewController {
             
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
-                self.imageView.image = image
+                    self.imageView.image = image
             }
         }
         .resume()
     }
 }
+
