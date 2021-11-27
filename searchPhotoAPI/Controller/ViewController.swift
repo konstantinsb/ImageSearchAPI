@@ -51,9 +51,9 @@ class ViewController: UIViewController {
 // MARK: - ImageSearchDataDelegate
 
 extension ViewController: ImageSearchDataDelegate {
-        func imageSearchResponce(results: [Result], totalPage: Int) {
+        func imageSearchResponce(results: [Result]) {
             self.results = results
-            self.totalPage = totalPage
+           
             collectionView.reloadData()
     }
     
@@ -68,7 +68,7 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource{
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let imageUrlString = results[indexPath.item].urls.thumb
+            let imageUrlString = results[indexPath.item].original
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as! ImageCollectionViewCell
             cell.config(with: imageUrlString)
@@ -76,8 +76,8 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource{
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let imgUrl2 = results[indexPath.item].links.html
-            let imgUrl = results[indexPath.item].urls.regular
+            let imgUrl2 = results[indexPath.item].link
+            let imgUrl = results[indexPath.item].original
             let vc = storyboard?.instantiateViewController(identifier: "PhotoFullScreenVC") as! PhotoFullScreenVC
             vc.selectedUrlString = imgUrl2
             vc.config(with: imgUrl)
@@ -92,7 +92,7 @@ extension ViewController: UISearchBarDelegate {
             if let text = searchBar.text{
                 results = []
                 collectionView?.reloadData()
-                ds.fetchPhotos(query: text, pageNumber: pageNumber)
+                ds.fetchPhotos(query: text)
         }
     }
 }

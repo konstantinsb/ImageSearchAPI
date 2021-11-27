@@ -53,7 +53,7 @@ class PhotoFullScreenVC: UIViewController {
             
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
-                    self.imageView.image = image
+                self.imageView.image = image
             }
         }
         .resume()

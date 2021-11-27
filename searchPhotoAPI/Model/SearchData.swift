@@ -8,29 +8,18 @@
 import Foundation
 
 protocol ImageSearchDataDelegate {
-    func imageSearchResponce (results: [Result], totalPage: Int)
+    func imageSearchResponce (results: [Result])
 }
 
-struct ApiResponse:Codable {
-  
-    let total:Int
-    let total_pages:Int
-    let results:[ Result]
+struct ApiResponse: Codable {
+    let images_results : [Result]
 }
 
-struct Result:Codable{
-    let id:String
-    let urls:URLS
-    let links: LINKS
-}
-
-struct URLS:Codable {
-    let thumb : String
-    let regular:String
-}
-
-struct LINKS: Codable{
-    let html: String
+struct Result: Codable {
+    let position: Int
+    let thumbnail: String
+    let link: String
+    let original: String
 }
 
 struct searchData {
@@ -38,9 +27,9 @@ struct searchData {
     
     func fetchPhotos(query: String, pageNumber: Int = 1){
             
-            let accessKey = "YTz7fZ8Qxx6rPBTCKkADzJ8NcetfzYZOekS_REIbeiQ"
+            let accessKey = "e1b2aa717aea8d46f62754b32d03ed4dc0f7fe11d82fdfcd8774ca2dfc223920"
             
-            let urlString = "https://api.unsplash.com/search/photos?page=\(pageNumber)&per_page=30&query=\(query)&client_id=\(accessKey)"
+            let urlString = "https://serpapi.com/search.json?q=\(query)&tbm=isch&ijn=0&api_key=\(accessKey)"
             
             guard let url = URL(string: urlString) else {
                 return
@@ -57,7 +46,7 @@ struct searchData {
                     let jsonResults = try JSONDecoder().decode(ApiResponse.self, from: data)
 
                     DispatchQueue.main.async {
-                        delegate?.imageSearchResponce(results: jsonResults.results, totalPage: jsonResults.total_pages)
+                        delegate?.imageSearchResponce(results: jsonResults.images_results)
                     }
                 } catch {
                     print(error)
